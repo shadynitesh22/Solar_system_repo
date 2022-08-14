@@ -1,0 +1,1 @@
+web: gunicorn SolarSystem.wsgi --log-file -

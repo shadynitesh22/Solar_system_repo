@@ -1,0 +1,56 @@
+version: '3.7'
+
+services:
+  django-gunicorn:
+    volumes:
+      - static:/static
+    build:
+
+      context: .
+    container_name: django-gunicorn
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./.env.dev
+    environment:
+      - DEBUG=1
+      - CELERY_BROKER=redis://redis:6379/
+      - CELERY_BACKEND=redis://redis:6379/0
+    depends_on:
+      - redis
+      - pgdb
+  celery:
+    build: .
+    command:
+      - celery -A nitesh.celery worker -l info
+
+    depends_on:
+      - django-gunicorn
+      - redis
+  pgdb:
+    image: postgres
+    container_name: pgdb
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=1997@92420
+    volumes:
+      - pgdata:/var/lib/postgresql/data/
+  redis:
+    image: redis
+
+  nginx:
+    build: ./nginx
+    volumes:
+      - static:/static
+    ports:
+      - "80:80"
+    depends_on:
+      - django-gunicorn
+    container_name: nginx
+
+
+volumes:
+  static:
+  pgdata:

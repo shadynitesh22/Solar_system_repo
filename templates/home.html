@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!--Start the content -->
+
+{% block content %}
+
+
+
+<section class="s1">
+		<div class="main-container">
+
+			<div class="greeting-wrapper">
+				<h1>Hi, I'm Nitesh Paudel</h1>
+
+
+				   <a href="{% url 'planets' %}"> Create planets</a>
+				<br>
+				 <a href="{% url 'solar-system' %}"> Create Solar System</a>
+			</div>
+
+
+
+
+
+      <br>
+            </div>
+            </section>
+
+	<section class="s2">
+		<div class="main-container">
+			<h3 style="text-align: center;"></h3>
+
+			<div class="post-wrapper">
+				{% for post in planets %}
+
+				<div>
+					<div class="post">
+					<img class="thumbnail" src="{{post.photo.url}}">
+						<div class="post-preview">
+							<h6 class="post-title">{{post.name}}</h6>
+							<p class="post-intro">{{post.mass}}</p>
+							<p class="post-intro">{{post.diameter}}</p>
+							<p class="post-intro">Distance:{{post.distance}}</p>
+							<a href="{}">Read More</a>
+						</div>
+
+					</div>
+
+				</div>
+	{% endfor %}
+			</div>
+
+
+
+		</div>
+
+
+
+
+
+
+  <!-- Copyright -->
+
+    </section>
+
+
+	<section class="s1">
+
+	<div class="main-container">
+			<h3 style="text-align: center;"></h3>
+
+			<div class="post-wrapper">
+				{% for post in solar_system %}
+
+				<div>
+					<div class="post">
+
+						<div class="post-preview">
+							<h6 class="post-title">{{post.name}}</h6>
+							<p class="post-intro"><td>{% for area in post.planets.all %}{{ area.name }} : {{area.mass}}<br/>{% endfor %}</td></p>
+							<p class="post-intro"><td>{% for area in post.stars.all %}{{ area.name }}<br/>{% endfor %}</td></p>
+
+							<a href="{% url 'find_weight' post.id %}">Find Mass</a>
+						</div>
+
+					</div>
+
+				</div>
+	{% endfor %}
+			</div>
+
+
+
+		</div>
+
+
+
+
+
+
+  <!-- Copyright -->
+
+
+    </section>
+{% endblock %}
+
+<!--End the content -->
