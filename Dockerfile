@@ -14,8 +14,11 @@ ENV PYTHONDONTWRITEBYCODE 1
 
 ENV PYHTONUNBUFFRED 1
 
+#CMD gunicron SolarSystem.wsgi:application --bind 0.0.0.0:$PORT
+
 COPY ./docker.sh /
 ENTRYPOINT ["sh","docker.sh"]
+
 
 
 
